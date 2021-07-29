@@ -41,7 +41,7 @@ plugins:
       mark: "custom-marker"
 
 nav:
-- Home: readme.md
+- Home: index.md
 - Subscriber and Authorization: 
   - About: auth-index.md
   - Start - Fist Access: auth-first_access.md
