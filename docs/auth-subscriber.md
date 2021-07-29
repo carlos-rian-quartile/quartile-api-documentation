@@ -7,26 +7,19 @@ After logging in using your AD B2C account on the portal.
 ## Step 1. Subscribe To A Product
 
 ### Go to __Products__ by clicking on the menu. 
-<p align="center">
-    <img src="/img/subscriber_key_00.png" width="1366" height="600" alt="Login Screen">
-</p>
+
+<img src="../img/subscriber_key_00.png" alt="Login Screen">
 
 ### All products will be listed, you can click on a product, for example: Advertising API.
 
-<p align="center">
-    <img src="/img/subscriber_key_01.png" width="1366" height="600" alt="Login Screen">
-</p>
+<img src="../img/subscriber_key_01.png" alt="Login Screen">
 
 ### Fill in the key name and click __Subscribe__.
 
-<p align="center">
-    <img src="/img/subscriber_key_02.png" width="1366" height="600" alt="Login Screen">
-</p>
+<img src="../img/subscriber_key_02.png" alt="Login Screen">
 
 ## Step 2. Check Your Keys
 
- Go to __Profile__. Check if your key has been created. All keys started with __State__ Submitted, only after Quartile approval you can use.
+Go to __Profile__. Check if your key has been created. All keys started with __State__ Submitted, only after Quartile approval you can use.
 
-<p align="center">
-    <img src="/img/subscriber_key_03.png" width="1366" height="600" alt="Login Screen">
-</p>
+<img src="../img/subscriber_key_03.png" alt="Login Screen">

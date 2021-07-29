@@ -13,16 +13,12 @@ By default you need to create a set of tokens. In this set of tokens, you will r
 After login, to to the "profile" page. You will see a "Generate Token" button, click this button! You will be redirected to new page where you can generate token.
 
 ### Generate Token
-<p align="center">
-    <img src="/img/token_00.png" width="1366" height="600" alt="Login Screen">
-</p>
 
+<img src="../img/token_00.png" alt="Login Screen">
 
 ### Fill in AD B2C email and password, click on "sign in".
-<p align="center">
-    <img src="/img/token_01.png" width="1366" height="600" alt="Login Screen">
-</p>
 
+<img src="../img/token_01.png" alt="Login Screen">
 
 ### If you have logged in correctly, a set of tokens will be generated.
 

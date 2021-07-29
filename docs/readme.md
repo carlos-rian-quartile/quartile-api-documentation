@@ -12,7 +12,7 @@ Grow your product sales with Quartile’s e-commerce advertising solutions acros
 * `mkdocs -h` - Print help message and exit.
 
 ## Project layout
-- testando
+- testa
 
 <div class="termy">
 
