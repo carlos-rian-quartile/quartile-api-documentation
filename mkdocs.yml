@@ -33,7 +33,7 @@ theme:
   favicon: img/favicon.png
   language: en
 repo_name: 'Quartile API Doc'
-repo_url: 'https://github.com/carlos-rian-quartile/quartile-api-documentation/'
+repo_url: 'https://github.com/carlos-rian-quartile/quartile-api-documentation'
 edit_uri: ''
 plugins:
   - search
