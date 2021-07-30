@@ -11,13 +11,13 @@ theme:
     primary: orange
     accent: deep orange
     toggle:
-      icon: material/eye-outline
+      icon: material/lightbulb
       name: Switch to dark mode
   - scheme: slate
     primary: orange
     accent: deep orange
     toggle:
-      icon: material/eye
+      icon: material/lightbulb-outline
       name: Switch to light mode
   features:
   - search.suggest
