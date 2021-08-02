@@ -42,6 +42,7 @@ plugins:
 
 nav:
 - Home: index.md
+- Instance Project: instance-project.md
 - Subscriber and Authorization: 
   - About: auth-index.md
   - Start - Fist Access: auth-first_access.md
