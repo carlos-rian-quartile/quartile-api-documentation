@@ -30,7 +30,7 @@ theme:
   icon:
     repo: fontawesome/brands/github-alt
   logo: img/icon-quartile.png
-  favicon: img/favicon.png
+  favicon: img/favicon.ico
   language: en
 repo_name: 'Quartile API Doc'
 repo_url: 'https://github.com/carlos-rian-quartile/quartile-api-documentation'
