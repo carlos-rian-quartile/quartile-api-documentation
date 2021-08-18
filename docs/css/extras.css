@@ -43,19 +43,10 @@ p, h1, h2, h3, h4, h5, h6, span {
 @media only screen and (min-width: 1220px) {
     .md-nav__link {
         border-bottom: 1px solid #e6e6e6;
+        border-left: 5px solid transparent;
     }
-    a.md-nav__link.md-nav__link--active::before {
-        content: '';
-        width: 5px;
-        height: 48px;
-        background: var(--primary);
-        display: block;
-        position: absolute;
-        left: 16px;
-        margin-top: -14px;
-    }
-    li li a.md-nav__link.md-nav__link--active::before {
-        left: 28px;
+    a.md-nav__link.md-nav__link--active {
+        border-color: var(--primary);
     }
 }
 .md-top:focus, .md-top:hover {
@@ -119,4 +110,8 @@ span.md-ellipsis::before {
 .md-footer-meta {
     padding: 0;
     background: var(--dark-gray);
+}
+p img,
+p iframe {
+    max-width: 750px !important;
 }
