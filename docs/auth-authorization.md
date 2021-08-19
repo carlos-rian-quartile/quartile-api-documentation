@@ -10,7 +10,7 @@ By default you need to create a set of tokens. In this set of tokens, you will r
 
 ## Step 1. Access Profile
 
-After login, to to the "profile" page. You will see a "Generate Token" button, click this button! You will be redirected to new page where you can generate token.
+After login, to to the "profile" page. You will see a "Generate Token" button, click this button. You will be redirected to new page where you can generate token.
 
 ### Generate Token
 

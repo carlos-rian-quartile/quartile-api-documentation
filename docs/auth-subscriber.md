@@ -1,7 +1,5 @@
 The user can subscribe to any product, but cannot have more than one active key for each product.
-
 All keys must be approved (activated by Quartile), activation deadline is 24 hours after creation.
-
 After logging in using your AD B2C account on the portal. 
 
 ## Step 1. Subscribe To A Product

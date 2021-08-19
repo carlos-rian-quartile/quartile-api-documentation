@@ -42,7 +42,7 @@ plugins:
 
 nav:
 - Home: index.md
-- Instance Project: instance-project.md
+#- Instance Project: instance-project.md
 - Subscriber and Authorization: 
   - About: auth-index.md
   - Start - Fist Access: auth-first_access.md
@@ -50,12 +50,12 @@ nav:
   - Create Authorization: auth-authorization.md
 - Amazon: 
   - Amazon Advertiser: amazon-index.md
-  - Amazon DSP: amazondsp-index.md
-- Google: 
-  - Google: google-index.md
-  - Google Merchant: googlemerchant-index.md
-- Instacart: instacart-index.md
-- Shopify: shopify-index.md
+#  - Amazon DSP: amazondsp-index.md
+#- Google: 
+#  - Google: google-index.md
+#  - Google Merchant: googlemerchant-index.md
+#- Instacart: instacart-index.md
+#- Shopify: shopify-index.md
 
 markdown_extensions:
 - toc:
