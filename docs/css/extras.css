@@ -5,6 +5,10 @@ p, h1, h2, h3, h4, h5, h6, span {
     /*word-break: break-all;*/
 }
 
+p, span, a {
+    font-size: 18px;
+}
+
 .md-grid {
     max-width: 70rem;
 }
@@ -55,11 +59,11 @@ p, h1, h2, h3, h4, h5, h6, span {
 .md-typeset .headerlink:focus, .md-typeset .headerlink:hover, .md-typeset :target>.headerlink {
     color: var(--primary);
 }
-.md-nav__icon {
-    
-}
 .md-nav__link:focus, .md-nav__link:hover {
     color: var(--primary);
+}
+.md-typeset a {
+    text-decoration: underline;
 }
 .md-typeset a:focus, .md-typeset a:hover {
     color: var(--primary);
@@ -70,10 +74,13 @@ p, h1, h2, h3, h4, h5, h6, span {
 }
 .md-typeset h1 {
     color: var(--md-typeset-a-color);
-    font-size: 2em;
+    font-size: 32px;
     line-height: 1.3;
     margin: 0 0 1.25em;
     text-shadow: 0ch;
+}
+.md-typeset h2 {
+    font-size: 24px;
 }
 
 .md-search__input {
