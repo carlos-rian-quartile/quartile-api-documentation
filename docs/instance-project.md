@@ -17,7 +17,7 @@ Grow your product sales with Quartile’s e-commerce advertising solutions acros
     <div class="termy">
 
     ```console
-    $ git clone https://quartiledigital.visualstudio.com/QD_OPEN_API/_git/QD_OPEN_API.git
+    $ git clone https://...com/QD_OPEN_API/_git/QD_OPEN_API.git
 
     Cloning into 'QD_OPEN_API'...
     remote: Enumerating objects: 142, done.
@@ -45,7 +45,7 @@ Grow your product sales with Quartile’s e-commerce advertising solutions acros
     ```console
     $ poetry shell
 
-    Spawning shell within /home/carlos-rian/.cache/pypoetry/virtualenvs/documentation-CgtZZHXK-py3.8
+    Spawning shell within /home/username/.cache/pypoetry/virtualenvs/documentation-CgtZZHXK-py3.8
     . /home/username/.cache/pypoetry/virtualenvs/documentation-CgtZZHXK-py3.8/bin/activate
     ```
     </div>
