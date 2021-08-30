@@ -62,5 +62,4 @@ INFO     -  [10:17:42] Serving on http://127.0.0.1:8000/
 ```
 
 6. Access your local endpoint documentation.
-
-Link: http://127.0.0.1:8000/
+ - Link: http://127.0.0.1:8000/
