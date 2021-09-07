@@ -1,27 +1,31 @@
-# Quartile REST API
+# Quartile
 
 Grow your product sales with Quartile’s e-commerce advertising solutions across Amazon, Instacart, and other leading online marketplaces.
 
 [Site Quartile](http://www.quartile.com/)
 
-## About
+## About Documentation
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Welcome to the Quartile OpenAPI documentation.
+Currently, our apis are documented through endpoints. 
+For example: When going to [Developer Portal](https://developer.quartile.com) > API > Amazon, 
+you will find text describing each endpoint and input/output data.
 
-## Project layout
+## About Tutorials
+Tutorials is a simplified way on how you can use our API and have extra documentation.
+
+
+## Check API Connection
+
+Change the "**{{sub_key}}**" to your subscriber key. 
+If you don't have a subscriber key, you can create it in the [Developer Portal](https://developer.quartile.com/signin).
 
 <div class="termy">
 
 ```console
-$ curl https://api.quartile.com
+$ curl "https://api.quartile.com/status?subscription-key={{sub_key}}"
 {
     "message": "running"
 }
 ```
 </div>
-
-## Test video
-![custom-marker](https://www.youtube.com/embed/9ByugIzgBaY)
