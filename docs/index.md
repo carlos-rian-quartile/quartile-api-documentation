@@ -7,7 +7,7 @@ Grow your product sales with Quartile’s e-commerce advertising solutions acros
 ## About Documentation
 
 Welcome to the Quartile OpenAPI documentation.
-Currently, our apis are documented through endpoints. 
+Currently, our apis are documented through endpoints.<br> 
 For example: When going to [Developer Portal](https://developer.quartile.com) > API > Amazon, 
 you will find text describing each endpoint and input/output data.
 

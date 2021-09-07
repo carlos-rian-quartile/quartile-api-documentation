@@ -48,6 +48,7 @@ nav:
   - Start - Fist Access: auth-first_access.md
   - Create Subscriber: auth-subscriber.md
   - Create Authorization: auth-authorization.md
+- OpenAPI: openapi_spec.md
 - Amazon: 
   - Amazon Advertiser: amazon-index.md
 #  - Amazon DSP: amazondsp-index.md
