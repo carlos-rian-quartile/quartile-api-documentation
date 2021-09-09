@@ -1,1 +1,2875 @@
-{"openapi":"3.0.2","info":{"title":"Quartile API - Quartile LLC","description":"OpenAPI Specification","version":"0.1.0"},"paths":{"/auth/v1/token":{"get":{"tags":["Authorization"],"summary":"Get Token","description":"- **code**: The authorize token, normally the user with a customer profile does not have access to this data.\nIf this is the case, you can obtain new tokens in the <a href=\"/profile\">Tokens - \"Developer Portal > Profile\"</a>.","operationId":"get_token_auth_v1_token_get","parameters":[{"required":true,"schema":{"title":"Code","pattern":"^[a-zA-Z0-9-_.]+","type":"string"},"name":"code","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthToken"}}}},"400":{"description":"Erro generating, updating or validate token, check the information.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/DefaultError"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/auth/v1/refresh-token":{"post":{"tags":["Authorization"],"summary":"Refresh Token","description":"- **Body**: You need to enter the update token. If you do not have this data, \"log in\" again on the portal and request a new set of tokens (authorization_token and refresh_token).","operationId":"refresh_token_auth_v1_refresh_token_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshToken"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthToken"}}}},"400":{"description":"Erro generating, updating or validate token, check the information.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/DefaultError"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/auth/v1/validate-token":{"post":{"tags":["Authorization"],"summary":"Validate Token","description":"- **Authorization**: You can check if the \"authorization_token\" is valid.\n  Send the authorization_token in the header using the \"Authorization\" key.","operationId":"validate_token_auth_v1_validate_token_post","parameters":[{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ValidateToken"}}}},"401":{"description":"Unauthorized. Access token is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/amazon/v1/parameters/products":{"get":{"tags":["Amazon - Parameters"],"summary":"Get Products","operationId":"get_products_amazon_v1_parameters_products_get","parameters":[{"description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","required":false,"schema":{"title":"Profileid","minimum":1.0,"type":"integer","description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","default":"{{profile_id}}"},"name":"profileId","in":"query"},{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Products Amazon V1 Parameters Products Get","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSProducts"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"204":{"description":"No content."},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["Amazon - Parameters"],"summary":"Put Products","operationId":"put_products_amazon_v1_parameters_products_put","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"title":"Products","type":"array","items":{"$ref":"#/components/schemas/ModelACoSProductsUpdate"}}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Put Products Amazon V1 Parameters Products Put","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSProductsTransac"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Amazon - Parameters"],"summary":"Post Products","operationId":"post_products_amazon_v1_parameters_products_post","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"title":"Products","type":"array","items":{"$ref":"#/components/schemas/ModelACoSProducts"}}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Post Products Amazon V1 Parameters Products Post","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSProductsTransac"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Amazon - Parameters"],"summary":"Delete Products","operationId":"delete_products_amazon_v1_parameters_products_delete","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ModelACoSProductsDelete"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BaseModelACoSDefaultDelete"}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"400":{"description":"The data was not found.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/amazon/v1/parameters/campaigns":{"get":{"tags":["Amazon - Parameters"],"summary":"Get Campaigns","operationId":"get_campaigns_amazon_v1_parameters_campaigns_get","parameters":[{"description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","required":false,"schema":{"title":"Profileid","minimum":1.0,"type":"integer","description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","default":"{{profile_id}}"},"name":"profileId","in":"query"},{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Campaigns Amazon V1 Parameters Campaigns Get","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSCampaigns"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["Amazon - Parameters"],"summary":"Put Campaigns","operationId":"put_campaigns_amazon_v1_parameters_campaigns_put","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"title":"Campaigns","type":"array","items":{"$ref":"#/components/schemas/ModelACoSCampaignsUpdate"}}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Put Campaigns Amazon V1 Parameters Campaigns Put","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSCampaignsTransac"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Amazon - Parameters"],"summary":"Post Campaigns","operationId":"post_campaigns_amazon_v1_parameters_campaigns_post","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"title":"Campaigns","type":"array","items":{"$ref":"#/components/schemas/ModelACoSCampaigns"}}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Post Campaigns Amazon V1 Parameters Campaigns Post","type":"array","items":{"$ref":"#/components/schemas/BaseModelACoSCampaignsTransac"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Amazon - Parameters"],"summary":"Delete Campaigns","operationId":"delete_campaigns_amazon_v1_parameters_campaigns_delete","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ModelACoSProductsDelete"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BaseModelACoSDefaultDelete"}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"400":{"description":"The data was not found.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/amazon/v1/products/tag":{"get":{"tags":["Amazon - Products"],"summary":"Get Tag","operationId":"get_tag_amazon_v1_products_tag_get","parameters":[{"description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","required":false,"schema":{"title":"Profileid","minimum":1.0,"type":"integer","description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","default":"{{profile_id}}"},"name":"profileId","in":"query"},{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Tag Amazon V1 Products Tag Get","type":"array","items":{"$ref":"#/components/schemas/BaseModelTag"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"204":{"description":"No content."},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["Amazon - Products"],"summary":"Put Tag","operationId":"put_tag_amazon_v1_products_tag_put","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"title":"Tags","type":"array","items":{"$ref":"#/components/schemas/BaseModelTagDefault"}}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Put Tag Amazon V1 Products Tag Put","type":"array","items":{"$ref":"#/components/schemas/BaseModelTagUpdate"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/amazon/v1/products/info":{"get":{"tags":["Amazon - Products"],"summary":"Get Info","operationId":"get_info_amazon_v1_products_info_get","parameters":[{"description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","required":false,"schema":{"title":"Profileid","minimum":1.0,"type":"integer","description":"The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.","default":"{{profile_id}}"},"name":"profileId","in":"query"},{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Info Amazon V1 Products Info Get","type":"array","items":{"$ref":"#/components/schemas/BaseModelProductInfo"}}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["Amazon - Products"],"summary":"Put Info","operationId":"put_info_amazon_v1_products_info_put","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ModelProductsInfoUpdate"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BaseModelProductInfoMessage"}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"400":{"description":"The data was not found.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"206":{"description":"Some data has not been updated.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Amazon - Products"],"summary":"Post Info","operationId":"post_info_amazon_v1_products_info_post","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ModelProductsInfo"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BaseModelProductInfoMessage"}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"400":{"description":"Data already exists.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Amazon - Products"],"summary":"Delete Info","operationId":"delete_info_amazon_v1_products_info_delete","parameters":[{"description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","required":false,"schema":{"title":"Ocp-Apim-Subscription-Key","maxLength":32,"minLength":32,"type":"string","description":"The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.","default":"{{subscriber_key}}"},"name":"Ocp-Apim-Subscription-Key","in":"header"},{"description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.","required":true,"schema":{"title":"Authorization","pattern":"(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)","type":"string","description":"The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."},"name":"Authorization","in":"header"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ModelProductsInfoDelete"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BaseModelProductInfoMessage"}}}},"401":{"description":"Unauthorized. Access token or subscriber key is missing or invalid.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UnauthorizedToken"}}}},"400":{"description":"The data was not found.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Message"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}}},"components":{"schemas":{"AuthToken":{"title":"AuthToken","required":["authorization","refresh"],"type":"object","properties":{"authorization":{"$ref":"#/components/schemas/Authorization"},"refresh":{"$ref":"#/components/schemas/Refresh"}}},"Authorization":{"title":"Authorization","required":["token","type","expires_in","not_before","note"],"type":"object","properties":{"token":{"title":"Token","type":"string"},"type":{"title":"Type","type":"string"},"expires_in":{"title":"Expires In","type":"integer"},"not_before":{"title":"Not Before","type":"integer"},"note":{"title":"Note","type":"string"}}},"BaseModelACoSCampaigns":{"title":"BaseModelACoSCampaigns","required":["percACoS","profileId","campaignNameNV"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","type":"integer"},"id":{"title":"Id","type":"string","format":"uuid"},"campaignNameNV":{"title":"Campaignnamenv","type":"string"}}},"BaseModelACoSCampaignsTransac":{"title":"BaseModelACoSCampaignsTransac","required":["percACoS","profileId","campaignNameNV","action"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","type":"integer"},"id":{"title":"Id","type":"string","format":"uuid"},"campaignNameNV":{"title":"Campaignnamenv","type":"string"},"action":{"$ref":"#/components/schemas/app__v1__amazon__schema__output__resource__default__ModelEnumStatus"}}},"BaseModelACoSDefaultDelete":{"title":"BaseModelACoSDefaultDelete","required":["message"],"type":"object","properties":{"message":{"title":"Message","type":"string"}}},"BaseModelACoSProducts":{"title":"BaseModelACoSProducts","required":["percACoS","profileId","asin"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","type":"integer"},"id":{"title":"Id","type":"string","format":"uuid"},"asin":{"title":"Asin","type":"string"}}},"BaseModelACoSProductsTransac":{"title":"BaseModelACoSProductsTransac","required":["percACoS","profileId","asin","action"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","type":"integer"},"id":{"title":"Id","type":"string","format":"uuid"},"asin":{"title":"Asin","type":"string"},"action":{"$ref":"#/components/schemas/app__v1__amazon__schema__output__resource__default__ModelEnumStatus"}}},"BaseModelProduct":{"title":"BaseModelProduct","required":["tagListId","id"],"type":"object","properties":{"tagListId":{"title":"Taglistid","type":"string","format":"uuid"},"value":{"title":"Value","type":"string"},"id":{"title":"Id","type":"string","format":"uuid"}}},"BaseModelProductInfo":{"title":"BaseModelProductInfo","required":["asin","coGS","fbmShipping","otherFees","profileId","shipping","infoProductId","createdDate","tagList"],"type":"object","properties":{"asin":{"title":"Asin","type":"string"},"coGS":{"title":"Cogs","type":"number"},"fbmShipping":{"title":"Fbmshipping","type":"number"},"otherFees":{"title":"Otherfees","type":"number"},"profileId":{"title":"Profileid","type":"integer"},"shipping":{"title":"Shipping","type":"number"},"infoProductId":{"title":"Infoproductid","type":"string","format":"uuid"},"createdDate":{"title":"Createddate","type":"string"},"tagList":{"title":"Taglist","type":"array","items":{"$ref":"#/components/schemas/BaseModelProduct"}}}},"BaseModelProductInfoMessage":{"title":"BaseModelProductInfoMessage","required":["message"],"type":"object","properties":{"message":{"title":"Message","type":"string"}}},"BaseModelProductTagDefault":{"title":"BaseModelProductTagDefault","required":["tagListId"],"type":"object","properties":{"tagListId":{"title":"Taglistid","type":"string","format":"uuid"},"value":{"title":"Value","type":"string"}}},"BaseModelProductTagUpdate":{"title":"BaseModelProductTagUpdate","required":["tagListId","id"],"type":"object","properties":{"tagListId":{"title":"Taglistid","type":"string","format":"uuid"},"value":{"title":"Value","type":"string"},"id":{"title":"Id","type":"string","format":"uuid"}}},"BaseModelTag":{"title":"BaseModelTag","required":["id","label","sequence"],"type":"object","properties":{"id":{"title":"Id","type":"string","format":"uuid"},"label":{"title":"Label","type":"string"},"sequence":{"title":"Sequence","maximum":5.0,"minimum":1.0,"type":"integer"}}},"BaseModelTagDefault":{"title":"BaseModelTagDefault","required":["id","label","profileId"],"type":"object","properties":{"id":{"title":"Id","type":"string","format":"uuid"},"label":{"title":"Label","type":"string"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"}}},"BaseModelTagUpdate":{"title":"BaseModelTagUpdate","required":["id","label","profileId","action"],"type":"object","properties":{"id":{"title":"Id","type":"string","format":"uuid"},"label":{"title":"Label","type":"string"},"profileId":{"title":"Profileid","type":"integer"},"action":{"$ref":"#/components/schemas/app__v1__amazon__schema__output__resource__products__ModelEnumStatus"}}},"DefaultError":{"title":"DefaultError","required":["detail"],"type":"object","properties":{"detail":{"$ref":"#/components/schemas/MappingField"}},"description":"Mapping default error."},"HTTPValidationError":{"title":"HTTPValidationError","type":"object","properties":{"detail":{"title":"Detail","type":"array","items":{"$ref":"#/components/schemas/ValidationError"}}}},"MappingField":{"title":"MappingField","required":["error","error_description"],"type":"object","properties":{"message":{"title":"Message","type":"string","default":"Invalid token."},"error":{"title":"Error","type":"string"},"error_description":{"title":"Error Description","type":"string"}}},"Message":{"title":"Message","required":["detail"],"type":"object","properties":{"detail":{"title":"Detail","type":"string"}}},"ModelACoSCampaigns":{"title":"ModelACoSCampaigns","required":["percACoS","profileId","campaignNameNV"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"campaignNameNV":{"title":"Campaignnamenv","type":"string"}}},"ModelACoSCampaignsUpdate":{"title":"ModelACoSCampaignsUpdate","required":["percACoS","profileId","campaignNameNV","id"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"campaignNameNV":{"title":"Campaignnamenv","type":"string"},"id":{"title":"Id","type":"string","format":"uuid"}}},"ModelACoSProducts":{"title":"ModelACoSProducts","required":["percACoS","profileId","asin"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"asin":{"title":"Asin","type":"string"}}},"ModelACoSProductsDelete":{"title":"ModelACoSProductsDelete","required":["id","profileId"],"type":"object","properties":{"id":{"title":"Id","type":"string","format":"uuid"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"}}},"ModelACoSProductsUpdate":{"title":"ModelACoSProductsUpdate","required":["percACoS","profileId","asin","id"],"type":"object","properties":{"percACoS":{"title":"Percacos","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"asin":{"title":"Asin","type":"string"},"id":{"title":"Id","type":"string","format":"uuid"}}},"ModelProductsInfo":{"title":"ModelProductsInfo","required":["asin","coGS","fbmShipping","otherFees","profileId","shipping","tagList"],"type":"object","properties":{"asin":{"title":"Asin","type":"string"},"coGS":{"title":"Cogs","type":"number"},"fbmShipping":{"title":"Fbmshipping","type":"number"},"otherFees":{"title":"Otherfees","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"shipping":{"title":"Shipping","type":"number"},"tagList":{"title":"Taglist","type":"array","items":{"$ref":"#/components/schemas/BaseModelProductTagDefault"}}}},"ModelProductsInfoDelete":{"title":"ModelProductsInfoDelete","required":["infoProductId","profileId"],"type":"object","properties":{"infoProductId":{"title":"Infoproductid","type":"string","format":"uuid"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"}}},"ModelProductsInfoUpdate":{"title":"ModelProductsInfoUpdate","required":["asin","coGS","fbmShipping","otherFees","profileId","shipping","tagList","infoProductId"],"type":"object","properties":{"asin":{"title":"Asin","type":"string"},"coGS":{"title":"Cogs","type":"number"},"fbmShipping":{"title":"Fbmshipping","type":"number"},"otherFees":{"title":"Otherfees","type":"number"},"profileId":{"title":"Profileid","minimum":1.0,"type":"integer"},"shipping":{"title":"Shipping","type":"number"},"tagList":{"title":"Taglist","type":"array","items":{"$ref":"#/components/schemas/BaseModelProductTagUpdate"}},"infoProductId":{"title":"Infoproductid","type":"string","format":"uuid"}}},"Refresh":{"title":"Refresh","required":["token","expires_in","note"],"type":"object","properties":{"token":{"title":"Token","type":"string"},"expires_in":{"title":"Expires In","type":"integer"},"note":{"title":"Note","type":"string"}}},"RefreshToken":{"title":"RefreshToken","required":["refresh_token"],"type":"object","properties":{"refresh_token":{"title":"Refresh Token","type":"string"}}},"UnauthorizedToken":{"title":"UnauthorizedToken","required":["message"],"type":"object","properties":{"message":{"title":"Message","type":"string"},"statusCode":{"title":"Statuscode","type":"integer","default":401}},"description":"Mapping default error."},"ValidateToken":{"title":"ValidateToken","type":"object","properties":{"message":{"title":"Message","type":"string","default":"ok"}}},"ValidationError":{"title":"ValidationError","required":["loc","msg","type"],"type":"object","properties":{"loc":{"title":"Location","type":"array","items":{"type":"string"}},"msg":{"title":"Message","type":"string"},"type":{"title":"Error Type","type":"string"}}},"app__v1__amazon__schema__output__resource__default__ModelEnumStatus":{"title":"ModelEnumStatus","enum":["Inserted with success.","Updated with success.","Data already exists.","Data does not exists.","Error."],"type":"string","description":"An enumeration."},"app__v1__amazon__schema__output__resource__products__ModelEnumStatus":{"title":"ModelEnumStatus","enum":["Updated with success.","Data does not exists.","Error."],"type":"string","description":"An enumeration."}}}}
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Quartile API - Quartile LLC",
+        "description": "OpenAPI Specification",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/auth/v1/token": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Get Token",
+                "description": "- **code**: The authorize token, normally the user with a customer profile does not have access to this data.\nIf this is the case, you can obtain new tokens in the <a href=\"/profile\">Tokens - \"Developer Portal > Profile\"</a>.",
+                "operationId": "get_token_auth_v1_token_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Code",
+                            "pattern": "^[a-zA-Z0-9-_.]+",
+                            "type": "string"
+                        },
+                        "name": "code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro generating, updating or validate token, check the information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/v1/refresh-token": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Refresh Token",
+                "description": "- **Body**: You need to enter the update token. If you do not have this data, \"log in\" again on the portal and request a new set of tokens (authorization_token and refresh_token).",
+                "operationId": "refresh_token_auth_v1_refresh_token_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshToken"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro generating, updating or validate token, check the information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/v1/validate-token": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Validate Token",
+                "description": "- **Authorization**: You can check if the \"authorization_token\" is valid.\n  Send the authorization_token in the header using the \"Authorization\" key.",
+                "operationId": "validate_token_auth_v1_validate_token_post",
+                "parameters": [
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidateToken"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/process/campaignsstatus": {
+            "get": {
+                "tags": [
+                    "Amazon - Process"
+                ],
+                "summary": "Get Campaignsstatus",
+                "operationId": "get_campaignsstatus_amazon_v1_process_campaignsstatus_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Campaignactionid",
+                            "minimum": 1.0,
+                            "type": "integer"
+                        },
+                        "name": "campaignActionId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Campaignsstatus Amazon V1 Process Campaignsstatus Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseProcess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Amazon - Process"
+                ],
+                "summary": "Post Campaignsstatus",
+                "operationId": "post_campaignsstatus_amazon_v1_process_campaignsstatus_post",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/parameters/products": {
+            "get": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Get Products",
+                "operationId": "get_products_amazon_v1_parameters_products_get",
+                "parameters": [
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Products Amazon V1 Parameters Products Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSProducts"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content."
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Put Products",
+                "operationId": "put_products_amazon_v1_parameters_products_put",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Products",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ModelACoSProductsUpdate"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Put Products Amazon V1 Parameters Products Put",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSProductsTransac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Post Products",
+                "operationId": "post_products_amazon_v1_parameters_products_post",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Products",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ModelACoSProducts"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Post Products Amazon V1 Parameters Products Post",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSProductsTransac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Delete Products",
+                "operationId": "delete_products_amazon_v1_parameters_products_delete",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelACoSProductsDelete"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelACoSDefaultDelete"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/parameters/campaigns": {
+            "get": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Get Campaigns",
+                "operationId": "get_campaigns_amazon_v1_parameters_campaigns_get",
+                "parameters": [
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Campaigns Amazon V1 Parameters Campaigns Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSCampaigns"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Put Campaigns",
+                "operationId": "put_campaigns_amazon_v1_parameters_campaigns_put",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Campaigns",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ModelACoSCampaignsUpdate"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Put Campaigns Amazon V1 Parameters Campaigns Put",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSCampaignsTransac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Post Campaigns",
+                "operationId": "post_campaigns_amazon_v1_parameters_campaigns_post",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Campaigns",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ModelACoSCampaigns"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Post Campaigns Amazon V1 Parameters Campaigns Post",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelACoSCampaignsTransac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Amazon - Parameters"
+                ],
+                "summary": "Delete Campaigns",
+                "operationId": "delete_campaigns_amazon_v1_parameters_campaigns_delete",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelACoSProductsDelete"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelACoSDefaultDelete"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/products/tag": {
+            "get": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Get Tag",
+                "operationId": "get_tag_amazon_v1_products_tag_get",
+                "parameters": [
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Tag Amazon V1 Products Tag Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelTag"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content."
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Put Tag",
+                "operationId": "put_tag_amazon_v1_products_tag_put",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Tags",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/BaseModelTagDefault"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Put Tag Amazon V1 Products Tag Put",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelTagUpdate"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/products/info": {
+            "get": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Get Info",
+                "operationId": "get_info_amazon_v1_products_info_get",
+                "parameters": [
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Info Amazon V1 Products Info Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelProductInfo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Put Info",
+                "operationId": "put_info_amazon_v1_products_info_put",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelProductsInfoUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "206": {
+                        "description": "Partial content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Post Info",
+                "operationId": "post_info_amazon_v1_products_info_post",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelProductsInfo"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Delete Info",
+                "operationId": "delete_info_amazon_v1_products_info_delete",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModelProductsInfoDelete"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/amazon/v1/products/inboundinventory": {
+            "get": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Get Inboundinventory",
+                "operationId": "get_inboundinventory_amazon_v1_products_inboundinventory_get",
+                "parameters": [
+                    {
+                        "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                        "required": false,
+                        "schema": {
+                            "title": "Profileid",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on \"accounts\" resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+                            "default": "{{profile_id}}"
+                        },
+                        "name": "profileId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Inboundinventory Amazon V1 Products Inboundinventory Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseModelInboundInventory"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content."
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Put Inboundinventory",
+                "operationId": "put_inboundinventory_amazon_v1_products_inboundinventory_put",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModelInboundInventoryUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Post Inboundinventory",
+                "operationId": "post_inboundinventory_amazon_v1_products_inboundinventory_post",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModelInboundInventoryInsert"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Amazon - Products"
+                ],
+                "summary": "Delete Inboundinventory",
+                "operationId": "delete_inboundinventory_amazon_v1_products_inboundinventory_delete",
+                "parameters": [
+                    {
+                        "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                        "required": false,
+                        "schema": {
+                            "title": "Ocp-Apim-Subscription-Key",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "type": "string",
+                            "description": "The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+                            "default": "{{subscriber_key}}"
+                        },
+                        "name": "Ocp-Apim-Subscription-Key",
+                        "in": "header"
+                    },
+                    {
+                        "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access.",
+                        "required": true,
+                        "schema": {
+                            "title": "Authorization",
+                            "pattern": "(^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)|(^[B-b]earer\\s[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$)",
+                            "type": "string",
+                            "description": "The authorization token is used to validate your identity in AD B2C, only accounts registered in our AD B2C can have API access."
+                        },
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModelInboundInventoryDelete"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModelMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Access token or subscriber key is missing or invalid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthToken": {
+                "title": "AuthToken",
+                "required": [
+                    "authorization",
+                    "refresh"
+                ],
+                "type": "object",
+                "properties": {
+                    "authorization": {
+                        "$ref": "#/components/schemas/Authorization"
+                    },
+                    "refresh": {
+                        "$ref": "#/components/schemas/Refresh"
+                    }
+                }
+            },
+            "Authorization": {
+                "title": "Authorization",
+                "required": [
+                    "token",
+                    "type",
+                    "expires_in",
+                    "not_before",
+                    "note"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "title": "Token",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Type",
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "title": "Expires In",
+                        "type": "integer"
+                    },
+                    "not_before": {
+                        "title": "Not Before",
+                        "type": "integer"
+                    },
+                    "note": {
+                        "title": "Note",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelACoSCampaigns": {
+                "title": "BaseModelACoSCampaigns",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "campaignNameNV"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "campaignNameNV": {
+                        "title": "Campaignnamenv",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelACoSCampaignsTransac": {
+                "title": "BaseModelACoSCampaignsTransac",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "campaignNameNV",
+                    "action"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "campaignNameNV": {
+                        "title": "Campaignnamenv",
+                        "type": "string"
+                    },
+                    "action": {
+                        "$ref": "#/components/schemas/app__v1__amazon__schema__output__resource__default__ModelEnumStatus"
+                    }
+                }
+            },
+            "BaseModelACoSDefaultDelete": {
+                "title": "BaseModelACoSDefaultDelete",
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelACoSProducts": {
+                "title": "BaseModelACoSProducts",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "asin"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelACoSProductsTransac": {
+                "title": "BaseModelACoSProductsTransac",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "asin",
+                    "action"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "action": {
+                        "$ref": "#/components/schemas/app__v1__amazon__schema__output__resource__default__ModelEnumStatus"
+                    }
+                }
+            },
+            "BaseModelInboundInventory": {
+                "title": "BaseModelInboundInventory",
+                "required": [
+                    "asin",
+                    "date",
+                    "quantity",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "quantity": {
+                        "title": "Quantity",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "BaseModelInboundInventoryDelete": {
+                "title": "BaseModelInboundInventoryDelete",
+                "required": [
+                    "id",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    }
+                }
+            },
+            "BaseModelInboundInventoryInsert": {
+                "title": "BaseModelInboundInventoryInsert",
+                "required": [
+                    "asin",
+                    "date",
+                    "quantity",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "quantity": {
+                        "title": "Quantity",
+                        "type": "integer"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    }
+                }
+            },
+            "BaseModelInboundInventoryUpdate": {
+                "title": "BaseModelInboundInventoryUpdate",
+                "required": [
+                    "asin",
+                    "date",
+                    "quantity",
+                    "id",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "quantity": {
+                        "title": "Quantity",
+                        "type": "integer"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    }
+                }
+            },
+            "BaseModelMessage": {
+                "title": "BaseModelMessage",
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelProduct": {
+                "title": "BaseModelProduct",
+                "required": [
+                    "tagListId",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "tagListId": {
+                        "title": "Taglistid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "BaseModelProductInfo": {
+                "title": "BaseModelProductInfo",
+                "required": [
+                    "asin",
+                    "coGS",
+                    "fbmShipping",
+                    "otherFees",
+                    "profileId",
+                    "shipping",
+                    "infoProductId",
+                    "createdDate",
+                    "tagList"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "coGS": {
+                        "title": "Cogs",
+                        "type": "number"
+                    },
+                    "fbmShipping": {
+                        "title": "Fbmshipping",
+                        "type": "number"
+                    },
+                    "otherFees": {
+                        "title": "Otherfees",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "shipping": {
+                        "title": "Shipping",
+                        "type": "number"
+                    },
+                    "infoProductId": {
+                        "title": "Infoproductid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "createdDate": {
+                        "title": "Createddate",
+                        "type": "string"
+                    },
+                    "tagList": {
+                        "title": "Taglist",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BaseModelProduct"
+                        }
+                    }
+                }
+            },
+            "BaseModelProductTagDefault": {
+                "title": "BaseModelProductTagDefault",
+                "required": [
+                    "tagListId"
+                ],
+                "type": "object",
+                "properties": {
+                    "tagListId": {
+                        "title": "Taglistid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string"
+                    }
+                }
+            },
+            "BaseModelProductTagUpdate": {
+                "title": "BaseModelProductTagUpdate",
+                "required": [
+                    "tagListId",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "tagListId": {
+                        "title": "Taglistid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "BaseModelTag": {
+                "title": "BaseModelTag",
+                "required": [
+                    "id",
+                    "label",
+                    "sequence"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    },
+                    "sequence": {
+                        "title": "Sequence",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "BaseModelTagDefault": {
+                "title": "BaseModelTagDefault",
+                "required": [
+                    "id",
+                    "label",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "BaseModelTagUpdate": {
+                "title": "BaseModelTagUpdate",
+                "required": [
+                    "id",
+                    "label",
+                    "profileId",
+                    "action"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "type": "integer"
+                    },
+                    "action": {
+                        "$ref": "#/components/schemas/app__v1__amazon__schema__output__resource__products__ModelEnumStatus"
+                    }
+                }
+            },
+            "BaseProcess": {
+                "title": "BaseProcess",
+                "required": [
+                    "asin",
+                    "sku",
+                    "budget",
+                    "status",
+                    "queuedDate",
+                    "finishedDate"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "sku": {
+                        "title": "Sku",
+                        "type": "string"
+                    },
+                    "budget": {
+                        "title": "Budget",
+                        "type": "number"
+                    },
+                    "keywordText": {
+                        "title": "Keywordtext",
+                        "type": "string"
+                    },
+                    "targetASIN": {
+                        "title": "Targetasin",
+                        "type": "string"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "integer"
+                    },
+                    "queuedDate": {
+                        "title": "Queueddate",
+                        "type": "string"
+                    },
+                    "finishedDate": {
+                        "title": "Finisheddate",
+                        "type": "string"
+                    }
+                }
+            },
+            "DefaultError": {
+                "title": "DefaultError",
+                "required": [
+                    "detail"
+                ],
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "$ref": "#/components/schemas/MappingField"
+                    }
+                },
+                "description": "Mapping default error."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "MappingField": {
+                "title": "MappingField",
+                "required": [
+                    "error",
+                    "error_description"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string",
+                        "default": "Invalid token."
+                    },
+                    "error": {
+                        "title": "Error",
+                        "type": "string"
+                    },
+                    "error_description": {
+                        "title": "Error Description",
+                        "type": "string"
+                    }
+                }
+            },
+            "Message": {
+                "title": "Message",
+                "required": [
+                    "detail"
+                ],
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "string"
+                    }
+                }
+            },
+            "ModelACoSCampaigns": {
+                "title": "ModelACoSCampaigns",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "campaignNameNV"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "campaignNameNV": {
+                        "title": "Campaignnamenv",
+                        "type": "string"
+                    }
+                }
+            },
+            "ModelACoSCampaignsUpdate": {
+                "title": "ModelACoSCampaignsUpdate",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "campaignNameNV",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "campaignNameNV": {
+                        "title": "Campaignnamenv",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "ModelACoSProducts": {
+                "title": "ModelACoSProducts",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "asin"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    }
+                }
+            },
+            "ModelACoSProductsDelete": {
+                "title": "ModelACoSProductsDelete",
+                "required": [
+                    "id",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "ModelACoSProductsUpdate": {
+                "title": "ModelACoSProductsUpdate",
+                "required": [
+                    "percACoS",
+                    "profileId",
+                    "asin",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "percACoS": {
+                        "title": "Percacos",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "ModelProductsInfo": {
+                "title": "ModelProductsInfo",
+                "required": [
+                    "asin",
+                    "coGS",
+                    "fbmShipping",
+                    "otherFees",
+                    "profileId",
+                    "shipping",
+                    "tagList"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "coGS": {
+                        "title": "Cogs",
+                        "type": "number"
+                    },
+                    "fbmShipping": {
+                        "title": "Fbmshipping",
+                        "type": "number"
+                    },
+                    "otherFees": {
+                        "title": "Otherfees",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "shipping": {
+                        "title": "Shipping",
+                        "type": "number"
+                    },
+                    "tagList": {
+                        "title": "Taglist",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BaseModelProductTagDefault"
+                        }
+                    }
+                }
+            },
+            "ModelProductsInfoDelete": {
+                "title": "ModelProductsInfoDelete",
+                "required": [
+                    "infoProductId",
+                    "profileId"
+                ],
+                "type": "object",
+                "properties": {
+                    "infoProductId": {
+                        "title": "Infoproductid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "ModelProductsInfoUpdate": {
+                "title": "ModelProductsInfoUpdate",
+                "required": [
+                    "asin",
+                    "coGS",
+                    "fbmShipping",
+                    "otherFees",
+                    "profileId",
+                    "shipping",
+                    "tagList",
+                    "infoProductId"
+                ],
+                "type": "object",
+                "properties": {
+                    "asin": {
+                        "title": "Asin",
+                        "type": "string"
+                    },
+                    "coGS": {
+                        "title": "Cogs",
+                        "type": "number"
+                    },
+                    "fbmShipping": {
+                        "title": "Fbmshipping",
+                        "type": "number"
+                    },
+                    "otherFees": {
+                        "title": "Otherfees",
+                        "type": "number"
+                    },
+                    "profileId": {
+                        "title": "Profileid",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "shipping": {
+                        "title": "Shipping",
+                        "type": "number"
+                    },
+                    "tagList": {
+                        "title": "Taglist",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BaseModelProductTagUpdate"
+                        }
+                    },
+                    "infoProductId": {
+                        "title": "Infoproductid",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "Refresh": {
+                "title": "Refresh",
+                "required": [
+                    "token",
+                    "expires_in",
+                    "note"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "title": "Token",
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "title": "Expires In",
+                        "type": "integer"
+                    },
+                    "note": {
+                        "title": "Note",
+                        "type": "string"
+                    }
+                }
+            },
+            "RefreshToken": {
+                "title": "RefreshToken",
+                "required": [
+                    "refresh_token"
+                ],
+                "type": "object",
+                "properties": {
+                    "refresh_token": {
+                        "title": "Refresh Token",
+                        "type": "string"
+                    }
+                }
+            },
+            "UnauthorizedToken": {
+                "title": "UnauthorizedToken",
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "statusCode": {
+                        "title": "Statuscode",
+                        "type": "integer",
+                        "default": 401
+                    }
+                },
+                "description": "Mapping default error."
+            },
+            "ValidateToken": {
+                "title": "ValidateToken",
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string",
+                        "default": "ok"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "app__v1__amazon__schema__output__resource__default__ModelEnumStatus": {
+                "title": "ModelEnumStatus",
+                "enum": [
+                    "Inserted with success.",
+                    "Updated with success.",
+                    "Data already exists.",
+                    "Data does not exists.",
+                    "Error."
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "app__v1__amazon__schema__output__resource__products__ModelEnumStatus": {
+                "title": "ModelEnumStatus",
+                "enum": [
+                    "Updated with success.",
+                    "Data does not exists.",
+                    "Error."
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            }
+        }
+    }
+}
