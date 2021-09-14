@@ -38,6 +38,7 @@ p, span, a {
     padding: 13px;
     margin-top: 0;
     font-family: system-ui;
+    font-size: 16px;
 }
 @media only screen and (max-width: 1220px) {
     .md-sidebar {
@@ -84,9 +85,7 @@ p, span, a {
 }
 
 .md-search__input {
-    border: 1px solid #e8e8e8;
     border-radius: 25px;
-    background: white;
 }
 .md-search__form {
     background-color: rgba(0,0,0,.26);
