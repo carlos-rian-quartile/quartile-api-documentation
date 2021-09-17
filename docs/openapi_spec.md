@@ -4,7 +4,7 @@ The OpenAPI Specification (OAS) defines a standard, language-agnostic interface 
 
 An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.
 
-<small> P.S.: [References](https://swagger.io/specification/)</small>
+<small> P.S.: [References](https://swagger.io/specification/){:target="_blank"}</small>
 
 
 ## Swagger
@@ -13,7 +13,7 @@ Simplify API development for users, teams, and enterprises with the Swagger open
 
 Use Swagger as a best-practice reference for arranging APIs.
 
-<small> P.S.: [References](https://swagger.io)</small>
+<small> P.S.: [References](https://swagger.io){:target="_blank"}</small>
 
 ## Postman
 
@@ -21,14 +21,14 @@ Postman is an API platform for building and using APIs. Postman simplifies each 
 
 Use Postman with an alternative to test and copy the endpoint call.
 
-Export the openapi.json file from the Developer Portal.
+#### Export the openapi.json file from the Developer Portal.
 
 <img src="../img/spec_export_openapi_json.png" alt="Export spec openapi.json">
 
-Import into Postman.
+#### Import into Postman.
 
-[Click here](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
+[Postman tutorial - Click here](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/){:target="_blank"}
 
 
 
-<small> P.S.: [References](https://www.postman.com/)</small>
+<small> P.S.: [References](https://www.postman.com/){:target="_blank"}</small>

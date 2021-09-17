@@ -8,25 +8,25 @@ By default you need to create a set of tokens. In this set of tokens, you will r
 
 
 
-## Step 1. Access Profile
+### Step 1. Access Profile
 
 After login, to to the "profile" page. You will see a "Generate Token" button, click this button. You will be redirected to new page where you can generate token.
 
-### Generate Token
+#### Generate Token
 
 <img src="../img/token_00.png" alt="Login Screen">
 
-### Fill in AD B2C email and password, click on "sign in".
+#### Fill in Quartile email and password, click on "sign in".
 
 <img src="../img/token_01.png" alt="Login Screen">
 
-### If you have logged in correctly, a set of tokens will be generated.
+#### If you have logged in correctly, a set of tokens will be generated.
 
 ```JSON
 {!../docs/files/token.json!}
 ```
 
-## Step 2. Endpoints authorization, refresh and validate
+### Step 2. Endpoints **authorization**, **refresh** and **validate**
 
 Although the "Authorization" url is available, you don't need to use it because you will use the dev portal to generate a new set of tokens. With the generated tokens you can make API calls and request new tokens through the refresh endpoint.
 

@@ -2,7 +2,7 @@
 ## Subscriber and Authorization
 Access Control (Subscriber) and Authorization (OAuth2), by default, all the requests to our API require a subscriber key and authorization token.
 
-Both the subscriber key and authorization token can be generate in the [developer portal](https://apiportal.quartile.com).
+Both the subscriber key and authorization token can be generate in the [developer portal](https://developer.quartile.com){:target="_blank"}.
 
 
 ## Subscriber Key

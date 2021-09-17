@@ -87,7 +87,7 @@ extra:
       link: https://www.linkedin.com/company/quartiledigital
     - icon: fontawesome/solid/globe
       link: http://www.quartile.com/
-copyright: Copyright &copy; 2015 - 2020 Quartile LLC
+copyright: Copyright &copy; 2016 - 2020 Quartile LLC
 
 extra_css:
 - css/termynal.css
