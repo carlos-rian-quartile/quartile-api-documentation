@@ -43,12 +43,21 @@ plugins:
 nav:
 - Home: index.md
 #- Instance Project: instance-project.md
-- Subscriber and Authorization: 
-  - About: auth-index.md
-  - Start - Fist Access: auth-first_access.md
-  - Create Subscriber: auth-subscriber.md
-  - Create Authorization: auth-authorization.md
-- OpenAPI: openapi_spec.md
+- Portal Tutorial:
+  - Subscriber and OAuth: 
+    - About: tutorial/auth-index.md
+    - Start - Fist Access: tutorial/auth-first_access.md
+    - Create Subscriber: tutorial/auth-subscriber.md
+    - Create Authorization: tutorial/auth-authorization.md
+  
+  - API:
+    - Call the API through the portal: tutorial/portal-api.md
+  
+  - OpenAPI: 
+    - Specification: tutorial/openapi-spec.md
+    - Postman: tutorial/openapi-postman.md
+  
+
 - Amazon: 
   - Amazon Advertiser: amazon-index.md
 #  - Amazon DSP: amazondsp-index.md
