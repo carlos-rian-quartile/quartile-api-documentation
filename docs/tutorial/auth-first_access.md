@@ -1,6 +1,6 @@
 ### Step 1 - Access The Developer Portal
 
-* [Click here to access portal:](https://developer.quartile.com){:target="_blank"}
+<small>* [Click here to access portal:](https://developer.quartile.com){:target="_blank"}</small>
 
 #### Click on "__Sign In__".
 
@@ -19,7 +19,9 @@
 
 <img src="../img/auth_login_03.png"   alt="Login Screen">
 
-## Step 2 - Verify subscriber
+### Step 2 - Verify subscriber
 
+<p>
 After registration, it is necessary to validate your subscription. Check your email,
 you will receive the confirmation.
+</p>

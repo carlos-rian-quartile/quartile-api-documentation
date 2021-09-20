@@ -52,6 +52,7 @@ nav:
   
   - API:
     - Call the API through the portal: tutorial/portal-api.md
+    - Generate code for lang: tutorial/portal-api-code.md
   
   - OpenAPI: 
     - Specification: tutorial/openapi-spec.md
