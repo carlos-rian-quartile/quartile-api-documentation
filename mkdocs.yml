@@ -59,8 +59,8 @@ nav:
     - Postman: tutorial/openapi-postman.md
   
 
-- Amazon: 
-  - Amazon Advertiser: amazon-index.md
+# - Amazon: 
+#  - Amazon Advertiser: amazon-index.md
 #  - Amazon DSP: amazondsp-index.md
 #- Google: 
 #  - Google: google-index.md
