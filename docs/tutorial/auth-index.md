@@ -15,7 +15,7 @@ The subscriber is used to:
 
 <small> P.S.: A subscriber key is 32-character alphanumeric text that contains a value that uniquely identifies a subscriber in our API.</small>
 
-### Authorization (OAuth)
+### Authorization (OAuth2)
 The authorization token is used to validate your identity in Quartile LLC, this token is required to access our API.
 
 <small> P.S: An authorization code is an alphanumeric password that authorizes your user to search, change, delete, or enter information into a security-protected API.</small>
