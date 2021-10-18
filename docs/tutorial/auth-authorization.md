@@ -4,7 +4,7 @@ By default you need to create a set of tokens. In this set of tokens, you will r
 
 * __Authorization Token:__ Use this token to make API request! Send this token in the request header. Token expires in 3600 sec (1 hour) after being created.
 
-* __Refresh Token:__ Use this token to request a new set of tokens. Token expires in 20 hours after being created.
+* __Refresh Token:__ Use this token to request a new set of tokens. Token expires in 14 days after being created.
 
 
 
