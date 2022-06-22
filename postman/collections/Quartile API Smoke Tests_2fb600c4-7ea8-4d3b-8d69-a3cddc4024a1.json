@@ -1,0 +1,2492 @@
+{
+	"info": {
+		"_postman_id": "207a66de-35c0-43db-9225-b244c16823a6",
+		"name": "Quartile API Smoke Tests",
+		"description": "OpenAPI Specification",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth/v1",
+			"item": [
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d4fd8dd-511c-4589-b052-1112e7a32d74",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });\r",
+									"var jsonData = pm.response.json();\r",
+									"var authorization_token = jsonData.authorization.token;\r",
+									"pm.environment.set(\"authorization_token\", authorization_token);\r",
+									"var refresh_token = jsonData.refresh.token;\r",
+									"pm.environment.set(\"refresh_token\", refresh_token);"
+								]
+							}
+						}
+					],
+					"id": "7fe924d6-d3c3-47fa-889a-98aaf79babe2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/v1/refresh-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"v1",
+								"refresh-token"
+							]
+						},
+						"description": "- **Body**: You need to enter the update token. If you do not have this data, \"log in\" again on the portal and request a new set of tokens (authorization_token and refresh_token)."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "056251f6-7d5a-4e48-a039-a6a997765594",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+									"pm.test(\"Message is ok\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"ok\");\r",
+									"});"
+								]
+							}
+						}
+					],
+					"id": "a58fce9b-cc7c-4221-a08e-754f55b09f1b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/v1/validate-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"v1",
+								"validate-token"
+							]
+						},
+						"description": "- **Authorization**: You can check if the \"authorization_token\" is valid.\n  Send the authorization_token in the header using the \"Authorization\" key."
+					},
+					"response": []
+				}
+			],
+			"id": "71643c13-3dc6-44c2-ae3f-c273ca36ad69"
+		},
+		{
+			"name": "amazon/v1",
+			"item": [
+				{
+					"name": "pipe",
+					"item": [
+						{
+							"name": "Get Campaigns (wake up)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9b1ecd45-6488-4fb6-ad79-ef85c48e88dd",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+											"pm.test(\"Campaign count is greater than 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var count = jsonData.count;\r",
+											"    pm.expect(count).to.gt(0);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "bd316e55-076b-45e0-a003-934d9b199393",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/pipe/campaigns?maxResults=1000&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"pipe",
+										"campaigns"
+									],
+									"query": [
+										{
+											"description": "Token from a previous request. Use in conjunction with the **maxResults** parameter to control pagination of the returned array.",
+											"key": "nextToken",
+											"value": "in exercitation consequat esse n",
+											"disabled": true
+										},
+										{
+											"description": "Sets the maximum number of records returned per request. Use in conjunction with the **nextToken** parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned. Defaults to max page size (1000 per page). ",
+											"key": "maxResults",
+											"value": "1000"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Adgroup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "694dd831-d270-43ba-9bf9-4f3c248584c0",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+											"pm.test(\"AdGroup count is greater than 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var count = jsonData.count;\r",
+											"    pm.expect(count).to.gt(0);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "15f90dcf-7d2a-4e88-9454-d23f7687d1af",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/pipe/adgroup?maxResults=1000&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"pipe",
+										"adgroup"
+									],
+									"query": [
+										{
+											"description": "Token from a previous request. Use in conjunction with the **maxResults** parameter to control pagination of the returned array.",
+											"key": "nextToken",
+											"value": "in exercitation consequat esse n",
+											"disabled": true
+										},
+										{
+											"description": "Sets the maximum number of records returned per request. Use in conjunction with the **nextToken** parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned. Defaults to max page size (1000 per page). ",
+											"key": "maxResults",
+											"value": "1000"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Target",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "be1db2fc-4796-4d17-812a-535bc9bc02d0",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+											"pm.test(\"Target count is greater than 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var count = jsonData.count;\r",
+											"    pm.expect(count).to.gt(0);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "ca6898b6-9961-4270-a385-ceb0e76dc546",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/pipe/target?maxResults=1000&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"pipe",
+										"target"
+									],
+									"query": [
+										{
+											"description": "Token from a previous request. Use in conjunction with the **maxResults** parameter to control pagination of the returned array.",
+											"key": "nextToken",
+											"value": "in exercitation consequat esse n",
+											"disabled": true
+										},
+										{
+											"description": "Sets the maximum number of records returned per request. Use in conjunction with the **nextToken** parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned. Defaults to max page size (1000 per page). ",
+											"key": "maxResults",
+											"value": "1000"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Keyword",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "239b1c12-d1a3-45cb-b72f-3013d75f0172",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+											"pm.test(\"Keyword count is greater than 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var count = jsonData.count;\r",
+											"    pm.expect(count).to.gt(0);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "dc31c9f6-5959-4a24-a8e7-0de0375dda75",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/pipe/keyword?maxResults=1000&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"pipe",
+										"keyword"
+									],
+									"query": [
+										{
+											"description": "Token from a previous request. Use in conjunction with the **maxResults** parameter to control pagination of the returned array.",
+											"key": "nextToken",
+											"value": "in exercitation consequat esse n",
+											"disabled": true
+										},
+										{
+											"description": "Sets the maximum number of records returned per request. Use in conjunction with the **nextToken** parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned. Defaults to max page size (1000 per page). ",
+											"key": "maxResults",
+											"value": "1000"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Campaigns",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "da14b1ec-5597-46fd-8e8b-3d47ddb53ad6",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+											"pm.test(\"Campaign count is greater than 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var count = jsonData.count;\r",
+											"    pm.expect(count).to.gt(0);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "7e5b2038-bd8f-496c-b2ba-2578ef22f08e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/pipe/campaigns?maxResults=1000&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"pipe",
+										"campaigns"
+									],
+									"query": [
+										{
+											"description": "Token from a previous request. Use in conjunction with the **maxResults** parameter to control pagination of the returned array.",
+											"key": "nextToken",
+											"value": "in exercitation consequat esse n",
+											"disabled": true
+										},
+										{
+											"description": "Sets the maximum number of records returned per request. Use in conjunction with the **nextToken** parameter to control pagination. For example, supplying maxResults=20 with a previously returned token will fetch up to the next 20 items. In some cases, fewer items may be returned. Defaults to max page size (1000 per page). ",
+											"key": "maxResults",
+											"value": "1000"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "d58bbb7a-7066-4045-ab9b-156692c1a187"
+				},
+				{
+					"name": "process",
+					"item": [
+						{
+							"name": "Post Masterlist",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "699aa08d-9159-4d31-82be-f6b7925f2b2e",
+										"type": "text/javascript",
+										"exec": [
+											"var acos = Math.floor(Math.random() * 10000) / 100;\r",
+											"pm.collectionVariables.set(\"acos_1\", acos);\r",
+											"pm.collectionVariables.set(\"asin_1\", \"asinauto01\");\r",
+											"pm.collectionVariables.set(\"country_code\", \"US\");"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "b9e26d69-0614-41a8-b748-dd219546035d",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"var jsonData = pm.response.json ();\r",
+											"var id_masterlist = jsonData.id;\r",
+											"pm.collectionVariables.set(\"id_master\", id_masterlist);\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "77cd2f70-84c3-4748-bd52-44c294478352",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"asin\": \"{{asin_1}}\",\n    \"percACoS\": {{acos_1}},\n    \"countryCode\": \"{{country_code}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Masterlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "27db86bd-91c7-48ef-b3e0-70c28dfd6811",
+										"type": "text/javascript",
+										"exec": [
+											"var test_content = false;\r",
+											"pm.test(\"Status code is 200 or 204\", function () {\r",
+											"    var code = pm.response.code;\r",
+											"    console.log('Status code ' + code);\r",
+											"    if(code == 200) {\r",
+											"        test_content = true;\r",
+											"    }\r",
+											"    if(code != 200 && code != 204) {\r",
+											"        pm.expect.fail('Status code is ' + code);\r",
+											"    }\r",
+											"});\r",
+											"var jsonData = pm.response.json();\r",
+											"var record;\r",
+											"var fail = true;\r",
+											"pm.test(\"Test record 1 is found\", function () {\r",
+											"    for(var key in jsonData) {\r",
+											"        record = jsonData[key];\r",
+											"        expected_id = pm.collectionVariables.get(\"id_master\");\r",
+											"        if(record.id == expected_id) {\r",
+											"            console.log(\"Found the product\");\r",
+											"            fail = false;\r",
+											"            break;\r",
+											"        }\r",
+											"    }\r",
+											"    pm.expect(expected_id).to.eql(record.id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ASIN match\", function () {\r",
+											"    if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var asin = pm.collectionVariables.get(\"asin_1\");\r",
+											"    console.log(\"asin \" + asin + \" == \" + record.asin);\r",
+											"    pm.expect(asin).to.eql(record.asin);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"country match\", function () {\r",
+											"     if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var country = (pm.collectionVariables.get(\"country_code\"));\r",
+											"    console.log(\"country \" + country + \" == \" + record.countryCode);\r",
+											"    pm.expect(country).to.eql(record.countryCode);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ACoS match\", function () {\r",
+											"     if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var acos = pm.collectionVariables.get(\"acos_1\");\r",
+											"    console.log(\"acos \" + acos + \" == \" + record.percACoS);\r",
+											"    pm.expect(acos).to.eql(record.percACoS);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "016ae19f-a17f-49e6-aabb-e46db801f2cc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put Masterlist",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "c96157da-f097-42ae-a18f-ccded37d09d2",
+										"exec": [
+											"var acos = Math.floor(Math.random() * 10000) / 100;\r",
+											"pm.collectionVariables.set(\"acos_1\", acos);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "7ca0ea10-a48c-4717-b75a-e5ff0dca16b2",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "0e46607b-7f31-43c4-ad08-32690df33fc4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"asin\": \"{{asin_1}}\",\n    \"percACoS\": {{acos_1}},\n    \"countryCode\": \"{{country_code}}\",\n    \"id\": \"{{id_master}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Masterlist after modification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "510b25d4-1d80-4db3-976f-8967fdb454f9",
+										"type": "text/javascript",
+										"exec": [
+											"var test_content = false;\r",
+											"pm.test(\"Status code is 200 or 204\", function () {\r",
+											"    var code = pm.response.code;\r",
+											"    console.log('Status code ' + code);\r",
+											"    if(code == 200) {\r",
+											"        test_content = true;\r",
+											"    }\r",
+											"    if(code != 200 && code != 204) {\r",
+											"        pm.expect.fail('Status code is ' + code);\r",
+											"    }\r",
+											"});\r",
+											"var jsonData = pm.response.json();\r",
+											"var record;\r",
+											"var fail = true;\r",
+											"pm.test(\"Test record 1 is found\", function () {\r",
+											"    for(var key in jsonData) {\r",
+											"        record = jsonData[key];\r",
+											"        expected_id = pm.collectionVariables.get(\"id_master\");\r",
+											"        if(record.id == expected_id) {\r",
+											"            console.log(\"Found the product\");\r",
+											"            fail = false;\r",
+											"            break;\r",
+											"        }\r",
+											"    }\r",
+											"    pm.expect(expected_id).to.eql(record.id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ASIN match\", function () {\r",
+											"    if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var asin = pm.collectionVariables.get(\"asin_1\");\r",
+											"    console.log(\"asin \" + asin + \" == \" + record.asin);\r",
+											"    pm.expect(asin).to.eql(record.asin);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"country match\", function () {\r",
+											"     if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var country = (pm.collectionVariables.get(\"country_code\"));\r",
+											"    console.log(\"country \" + country + \" == \" + record.countryCode);\r",
+											"    pm.expect(country).to.eql(record.countryCode);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ACoS match\", function () {\r",
+											"     if(fail == true) {\r",
+											"      pm.expect.fail();\r",
+											"    }\r",
+											"    var acos = pm.collectionVariables.get(\"acos_1\");\r",
+											"    console.log(\"acos \" + acos + \" == \" + record.percACoS);\r",
+											"    pm.expect(acos).to.eql(record.percACoS);\r",
+											"});\r",
+											""
+										]
+									}
+								}
+							],
+							"id": "4f302f5c-96c8-4a28-93b3-7fd6eaf8b7a8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Masterlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6df8018f-4677-4902-bbb0-4c176cba8069",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e51f07d0-3f10-421c-af26-9d9737f6528e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"{{id_master}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Masterlist after exclusion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "58008843-11ca-498f-81b1-817ea93ec505",
+										"exec": [
+											"var test_content = false;\r",
+											"pm.test(\"Status code is 200 or 204\", function () {\r",
+											"    var code = pm.response.code;\r",
+											"    console.log('Status code ' + code);\r",
+											"    if(code == 200) {\r",
+											"        test_content = true;\r",
+											"    }\r",
+											"    if(code != 200 && code != 204) {\r",
+											"        pm.expect.fail('Status code is ' + code);\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Record 1 is not found\", function () {\r",
+											"    if(!test_content) {\r",
+											"        return;\r",
+											"    }\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var record;\r",
+											"\r",
+											"    for(var key in jsonData) {\r",
+											"        var found = false;\r",
+											"        record = jsonData[key];\r",
+											"        expected_id = pm.collectionVariables.get(\"id_master\");\r",
+											"        if(record.id == expected_id) {\r",
+											"            console.log(\"Found the id\");\r",
+											"            found = true;\r",
+											"            break;\r",
+											"        }\r",
+											"    }\r",
+											"    pm.expect(found).to.eql(false, \"Record that should have been deleted was found\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e55b7c19-5075-4486-82e2-b40a0c3710be",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/masterlist",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"masterlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Campaignsstatus",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "898f8d27-0cfa-45b9-b14a-55a96f70f361",
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200 or 204\", function () \r",
+											"{\r",
+											"    var status = pm.response.code;\r",
+											"    if(status != 200 && status != 204) {\r",
+											"        pm.expect.fail(\"Status code is \" + status);\r",
+											"    }\r",
+											"});"
+										]
+									}
+								}
+							],
+							"id": "c38746aa-339b-4f83-84ea-4d615869d669",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{subscriber_key}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/process/campaignsstatus?campaignActionId=1500&profileId={{profile_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"process",
+										"campaignsstatus"
+									],
+									"query": [
+										{
+											"description": "(Required) ",
+											"key": "campaignActionId",
+											"value": "1500"
+										},
+										{
+											"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+											"key": "profileId",
+											"value": "{{profile_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "eb440536-e9a1-4b3a-85a3-098defcaaac1"
+				},
+				{
+					"name": "parameters",
+					"item": [
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "Post Products",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "3b375636-ff86-4954-b6e1-51504b8f626d",
+												"type": "text/javascript",
+												"exec": [
+													"var acos = Math.floor(Math.random() * 10000) / 100;\r",
+													"pm.collectionVariables.set(\"product_acos_1\", acos);\r",
+													"pm.collectionVariables.set(\"asin_1\", \"asinauto01\");"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "8f6af02d-3c4d-4e04-afe0-cb10c2159819",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });\r",
+													"var jsonData = pm.response.json();\r",
+													"pm.test(\"Record inserted\", function () {\r",
+													"    var record = jsonData;\r",
+													"    var product_id = record.id;\r",
+													"    var asin = record.asin;\r",
+													"    var acos = record.percACoS;\r",
+													"    var profile_id = record.profileId;\r",
+													"    pm.expect(asin).to.be.eql(pm.collectionVariables.get(\"asin_1\"));\r",
+													"    pm.expect(acos).to.be.eql(pm.collectionVariables.get(\"product_acos_1\"));\r",
+													"    pm.expect(profile_id).to.be.eql(parseInt(pm.environment.get(\"profile_id\")));\r",
+													"    pm.collectionVariables.set(\"product_1_id\", product_id);\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "c2c962e5-9c53-4fdc-83e5-b1969940b106",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"percACoS\": {{product_acos_1}},\n    \"profileId\": {{profile_id}},\n    \"asin\": \"{{asin_1}}\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											]
+										},
+										"description": "• The endpoint You will be able to change ACOS on the ASIN level.<br>• The need to have a higher ACOS tolerance and bid higher on specific search terms or By setting an ACoS% at a product level, the system will understand that this Product/ASIN will not be required to achieve the Account's Campaign/Overall ACoS%, meaning that the Quartile system will look at this product/ASIN individually and try to take it to its ACoS% target."
+									},
+									"response": []
+								},
+								{
+									"name": "Get Products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b4e1d81b-2581-4122-83a1-b35cc5edd760",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"var jsonData = pm.response.json();\r",
+													"var record;\r",
+													"pm.test(\"Test record 1 is found\", function () {\r",
+													"    for(var key in jsonData) {\r",
+													"        record = jsonData[key];\r",
+													"        expected_id = pm.collectionVariables.get(\"product_1_id\");\r",
+													"        if(record.id == expected_id) {\r",
+													"            console.log(\"Found the product\");\r",
+													"            break;\r",
+													"        }\r",
+													"    }\r",
+													"    pm.expect(expected_id).to.eql(record.id);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"ASIN match\", function () {\r",
+													"    var asin = pm.collectionVariables.get(\"asin_1\");\r",
+													"    console.log(\"asin \" + asin + \" == \" + record.asin);\r",
+													"    pm.expect(asin).to.eql(record.asin);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Profile match\", function () {\r",
+													"    var profile = parseInt(pm.environment.get(\"profile_id\"));\r",
+													"    console.log(\"profileid \" + profile + \" == \" + record.profileId);\r",
+													"    pm.expect(profile).to.eql(record.profileId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"ACoS match\", function () {\r",
+													"    var acos = pm.collectionVariables.get(\"product_acos_1\");\r",
+													"    console.log(\"acos \" + acos + \" == \" + record.percACoS);\r",
+													"    pm.expect(acos).to.eql(record.percACoS);\r",
+													"});"
+												]
+											}
+										}
+									],
+									"id": "c81e6019-80b2-4145-babf-0e6057ea5f7e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "Returns a list of products configured for the account."
+									},
+									"response": []
+								},
+								{
+									"name": "Put Products",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "08c776ef-5a81-405b-8845-a51d4b269088",
+												"type": "text/javascript",
+												"exec": [
+													"var acos = Math.floor(Math.random() * 10000) / 100;\r",
+													"pm.collectionVariables.set(\"product_acos_1\", acos);"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "b17f3cd3-0650-48d4-a35f-6c60674d96a0",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+												]
+											}
+										}
+									],
+									"id": "1cb32ea6-c578-419e-9ac0-d983d53cae12",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"percACoS\": {{product_acos_1}},\n    \"profileId\": {{profile_id}},\n    \"asin\": \"{{asin_1}}\",\n    \"id\": \"{{product_1_id}}\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											]
+										},
+										"description": "Edit a list of products configured for the account."
+									},
+									"response": []
+								},
+								{
+									"name": "Get Products after modification",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2768bcc3-1b3d-4e8c-9444-695a4c94175b",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"var jsonData = pm.response.json();\r",
+													"var record;\r",
+													"pm.test(\"Test record 1 is found\", function () {\r",
+													"    for(var key in jsonData) {\r",
+													"        record = jsonData[key];\r",
+													"        expected_id = pm.collectionVariables.get(\"product_1_id\");\r",
+													"        if(record.id == expected_id) {\r",
+													"            console.log(\"Found the product\");\r",
+													"            break;\r",
+													"        }\r",
+													"    }\r",
+													"    pm.expect(expected_id).to.eql(record.id);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"ASIN match\", function () {\r",
+													"    var asin = pm.collectionVariables.get(\"asin_1\");\r",
+													"    console.log(\"asin \" + asin + \" == \" + record.asin);\r",
+													"    pm.expect(asin).to.eql(record.asin);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Profile match\", function () {\r",
+													"    var profile = parseInt(pm.environment.get(\"profile_id\"));\r",
+													"    console.log(\"profileid \" + profile + \" == \" + record.profileId);\r",
+													"    pm.expect(profile).to.eql(record.profileId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Modified ACoS match\", function () {\r",
+													"    var acos = pm.collectionVariables.get(\"product_acos_1\");\r",
+													"    console.log(\"acos \" + acos + \" == \" + record.percACoS);\r",
+													"    pm.expect(acos).to.eql(record.percACoS);\r",
+													"});"
+												]
+											}
+										}
+									],
+									"id": "156bc426-1be2-4cce-84e0-9c94b3d1cca6",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "Returns a list of products configured for the account."
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "02feb49e-a57f-4ceb-8603-256dd5bee99c",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+												]
+											}
+										}
+									],
+									"id": "7d5ec2fb-7fee-4249-95a1-570d827a68a6",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": \"{{product_1_id}}\",\n    \"profileId\": {{profile_id}}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											]
+										},
+										"description": "Remove a asin configured for the account."
+									},
+									"response": []
+								},
+								{
+									"name": "Get Products after exclusion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f2d8dc67-901b-4888-a77e-2fcdbe5c2e5e",
+												"type": "text/javascript",
+												"exec": [
+													"var test_content = false;\r",
+													"pm.test(\"Status code is 200 or 204\", function () {\r",
+													"    var code = pm.response.code;\r",
+													"    console.log('Status code ' + code);\r",
+													"    if(code == 200) {\r",
+													"        test_content = true;\r",
+													"    }\r",
+													"    if(code != 200 && code != 204) {\r",
+													"        pm.expect.fail('Status code is ' + code);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Record 1 is not found\", function () {\r",
+													"    if(!test_content) {\r",
+													"        return;\r",
+													"    }\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var record;\r",
+													"\r",
+													"    for(var key in jsonData) {\r",
+													"        var found = false;\r",
+													"        record = jsonData[key];\r",
+													"        expected_id = pm.collectionVariables.get(\"product_1_id\");\r",
+													"        if(record.id == expected_id) {\r",
+													"            console.log(\"Found the product\");\r",
+													"            found = true;\r",
+													"            break;\r",
+													"        }\r",
+													"    }\r",
+													"    pm.expect(found).to.eql(false, \"Record that should have been deleted was found\");\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "8837a2bc-2581-4f92-b8e4-3dcce8a70c20",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/products?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"products"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "Returns a list of products configured for the account."
+									},
+									"response": []
+								}
+							],
+							"id": "5bb8e729-ac88-4e43-87c6-79a4247b47ea"
+						},
+						{
+							"name": "campaigns",
+							"item": [
+								{
+									"name": "Get Campaigns",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "69f85632-202f-4bfa-8399-568fea3e862a",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"pm.test(\"Campaign count is greater than 0\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var count = jsonData.length;\r",
+													"    pm.expect(count).to.gt(0);\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "827ed98d-f36d-4c71-bf33-deeb728005ca",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/parameters/campaigns?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"parameters",
+												"campaigns"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "Returns a list of campaign configured for the account."
+									},
+									"response": []
+								}
+							],
+							"id": "1bc648c8-ad2b-42ec-9ede-f3a8585e4ea4"
+						}
+					],
+					"id": "18a9e12b-4ba7-4927-baa9-0d607a72fa5c"
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "tag",
+							"item": [
+								{
+									"name": "Get Tag",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "16acac90-5a55-443f-b4f6-373139fe9395",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"pm.test(\"Tag count is greater than 0\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var count = jsonData.length;\r",
+													"    pm.expect(count).to.gt(0);\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "ce1de154-b652-4a36-aba8-ea2fb21d1f78",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/products/tag?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"products",
+												"tag"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "Returns a list of tag configured for the account. "
+									},
+									"response": [
+										{
+											"id": "3d0824a9-2c63-4311-8418-e8a397dcdfe4",
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/tag?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"tag"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "[\n {\n  \"id\": \"urn:uuid:a428649c-7eb6-ff86-bece-6b7360633536\",\n  \"label\": \"<string>\",\n  \"sequence\": 55791116\n },\n {\n  \"id\": \"b84fff2e-ac57-9bfc-54ab-17e070768793\",\n  \"label\": \"<string>\",\n  \"sequence\": 98695028\n }\n]"
+										},
+										{
+											"id": "362cac5f-40c3-4d18-8f2e-de82bce22f9c",
+											"name": "No content.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/tag?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"tag"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": ""
+										},
+										{
+											"id": "52211d13-7dc7-49c5-b77e-fd6444af0b2f",
+											"name": "Unauthorized. Access token or subscriber key is missing or invalid.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/tag?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"tag"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"message\": \"<string>\",\n \"statusCode\": 401\n}"
+										},
+										{
+											"id": "657a1b4c-2499-4520-aaea-d0083c78c856",
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/tag?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"tag"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"detail\": [\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  },\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  }\n ]\n}"
+										}
+									]
+								}
+							],
+							"id": "e4042e1a-e917-416b-9f68-a83448c7d239"
+						},
+						{
+							"name": "info",
+							"item": [
+								{
+									"name": "Get Info",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7f299f1e-5367-4ca5-80df-94887acbada3",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"pm.test(\"Product info count is greater than 0\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var count = jsonData.length;\r",
+													"    pm.expect(count).to.gt(0);\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "9a346f8f-1892-4e8b-94a2-4d6c200a4956",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/products/info?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"products",
+												"info"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										},
+										"description": "- Returns a list of productInformation configured for the account. "
+									},
+									"response": [
+										{
+											"id": "777aed6d-6108-4712-90ff-a0a5a6ec079f",
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/info?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"info"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "[\n {\n  \"asin\": \"<string>\",\n  \"profileId\": 82118515,\n  \"infoProductId\": \"urn:uuid:c31f01d7-4a15-2fb7-3785-df2797efa1c6\",\n  \"createdDate\": \"<string>\",\n  \"tagList\": [\n   {\n    \"tagListId\": \"urn:uuid:21e69db3-3bd8-cfc5-4423-866b3b67e365\",\n    \"id\": \"d60feca5-9752-ca74-795d-aebb31b9c359\",\n    \"value\": \"<string>\"\n   },\n   {\n    \"tagListId\": \"urn:uuid:b7869ae3-3a7e-e37c-9149-babf08ed2d63\",\n    \"id\": \"aa08793d-02fa-6f3f-b2b2-66742439b3d4\",\n    \"value\": \"<string>\"\n   }\n  ],\n  \"coGS\": -64610363.068950385,\n  \"fbmShipping\": 66128602.145867944,\n  \"otherFees\": 48222814.37970662,\n  \"shipping\": -7083383.204268262\n },\n {\n  \"asin\": \"<string>\",\n  \"profileId\": 414227,\n  \"infoProductId\": \"urn:uuid:3079bfec-bfc5-58ea-617f-6a95195e3714\",\n  \"createdDate\": \"<string>\",\n  \"tagList\": [\n   {\n    \"tagListId\": \"urn:uuid:62732e75-e48b-ddcf-477c-14c63e70fa39\",\n    \"id\": \"urn:uuid:196db0a9-1095-cbc2-1231-4a62eb159e9e\",\n    \"value\": \"<string>\"\n   },\n   {\n    \"tagListId\": \"urn:uuid:ddcdace7-bab7-b89e-5d68-654e8bd19973\",\n    \"id\": \"c798aaa3-500c-4ecb-b792-7b7ebd6affbc\",\n    \"value\": \"<string>\"\n   }\n  ],\n  \"coGS\": -63340287.5582981,\n  \"fbmShipping\": 63052402.72031182,\n  \"otherFees\": -81202761.3561682,\n  \"shipping\": 53572442.72187248\n }\n]"
+										},
+										{
+											"id": "1ec812ee-c3b2-474a-8423-e36aab94c38d",
+											"name": "Unauthorized. Access token or subscriber key is missing or invalid.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/info?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"info"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"message\": \"<string>\",\n \"statusCode\": 401\n}"
+										},
+										{
+											"id": "702863d0-8812-4a31-b9b0-859937d63828",
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/info?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"info"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"detail\": [\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  },\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  }\n ]\n}"
+										}
+									]
+								}
+							],
+							"id": "e62d4672-e432-4082-a2da-3b4425c2984f"
+						},
+						{
+							"name": "inboundinventory",
+							"item": [
+								{
+									"name": "Get Inboundinventory",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "fb6a9dd6-a0b5-4c59-b35b-a059d5f1f74c",
+												"type": "text/javascript",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });\r",
+													"pm.test(\"Inventory count is greater than 0\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var count = jsonData.length;\r",
+													"    pm.expect(count).to.gt(0);\r",
+													"});\r",
+													""
+												]
+											}
+										}
+									],
+									"id": "d6521c11-b432-4131-97b1-f35c7b912f77",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+												"key": "Ocp-Apim-Subscription-Key",
+												"value": "{{subscriber_key}}"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/amazon/v1/products/inboundinventory?profileId={{profile_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"amazon",
+												"v1",
+												"products",
+												"inboundinventory"
+											],
+											"query": [
+												{
+													"description": "(Required) The identifier of a profile associated with the advertiser account. If not you have this data, use GET method on &quot;accounts&quot; resource to list profiles associated with the access token passed in the HTTP Authorization header.",
+													"key": "profileId",
+													"value": "{{profile_id}}"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "cd164c86-da3f-4a8f-87e9-29a9fcde4474",
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/inboundinventory?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"inboundinventory"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "[\n {\n  \"asin\": \"<string>\",\n  \"date\": \"1995-06-09T16:49:58.980Z\",\n  \"quantity\": 43674455,\n  \"id\": \"urn:uuid:b1c7e47f-425b-91bb-6d71-e3dd84d0bab1\"\n },\n {\n  \"asin\": \"<string>\",\n  \"date\": \"1960-06-22T20:40:26.293Z\",\n  \"quantity\": 78454807,\n  \"id\": \"urn:uuid:2ed8f5d5-e14b-846c-2a86-10687a0d26fb\"\n }\n]"
+										},
+										{
+											"id": "5472e33c-8436-48b0-9a67-fcf6932bd7b2",
+											"name": "No content.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/inboundinventory?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"inboundinventory"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": ""
+										},
+										{
+											"id": "a19886e4-3006-432a-862f-34282ee2caf7",
+											"name": "Unauthorized. Access token or subscriber key is missing or invalid.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/inboundinventory?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"inboundinventory"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"message\": \"<string>\",\n \"statusCode\": 401\n}"
+										},
+										{
+											"id": "655e37e9-a4bd-4ebc-9ef2-9eee95045900",
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+														"key": "Ocp-Apim-Subscription-Key",
+														"value": "<string>"
+													},
+													{
+														"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+														"key": "Authorization",
+														"value": "<string>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/amazon/v1/products/inboundinventory?profileId=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"amazon",
+														"v1",
+														"products",
+														"inboundinventory"
+													],
+													"query": [
+														{
+															"key": "profileId",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "Text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"detail\": [\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  },\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  }\n ]\n}"
+										}
+									]
+								}
+							],
+							"id": "15da8c13-a600-4c4a-85af-499d58acf8f1"
+						}
+					],
+					"id": "82689cc9-7061-4543-87ce-034cc7269eef"
+				},
+				{
+					"name": "Get Accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9ffc8c7c-0d08-4698-afaf-c7f94a427e5e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"id": "f0baad86-f38b-47fc-a07c-f42a7043e098",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{subscriber_key}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/amazon/v1/accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"amazon",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "8c8dd8a2-ab22-4f5d-9c19-9b675fb30d4e",
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+										"key": "Authorization",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n \"company\": \"<string>\",\n \"sellers\": [\n  {\n   \"sellerName\": \"<string>\",\n   \"sellerId\": \"<string>\",\n   \"accountInfoType\": \"<string>\",\n   \"accountInfoName\": \"<string>\",\n   \"profileId\": 70357009,\n   \"subNumber\": \"<string>\",\n   \"marketPlaces\": [\n    {\n     \"id\": -25412015,\n     \"name\": \"<string>\",\n     \"marketPlaceId\": \"<string>\",\n     \"marketPlace\": \"<string>\",\n     \"countryCode\": \"<string>\",\n     \"currentTimeZone\": \"<string>\",\n     \"region\": \"<string>\"\n    },\n    {\n     \"id\": null,\n     \"name\": \"<string>\",\n     \"marketPlaceId\": \"<string>\",\n     \"marketPlace\": \"<string>\",\n     \"countryCode\": \"<string>\",\n     \"currentTimeZone\": \"<string>\",\n     \"region\": \"<string>\"\n    }\n   ]\n  },\n  {\n   \"sellerName\": \"<string>\",\n   \"sellerId\": \"<string>\",\n   \"accountInfoType\": \"<string>\",\n   \"accountInfoName\": \"<string>\",\n   \"profileId\": -6567467,\n   \"subNumber\": \"<string>\",\n   \"marketPlaces\": [\n    {\n     \"id\": -59638073,\n     \"name\": \"<string>\",\n     \"marketPlaceId\": \"<string>\",\n     \"marketPlace\": \"<string>\",\n     \"countryCode\": \"<string>\",\n     \"currentTimeZone\": \"<string>\",\n     \"region\": \"<string>\"\n    },\n    {\n     \"id\": 262410,\n     \"name\": \"<string>\",\n     \"marketPlaceId\": \"<string>\",\n     \"marketPlace\": \"<string>\",\n     \"countryCode\": \"<string>\",\n     \"currentTimeZone\": \"<string>\",\n     \"region\": \"<string>\"\n    }\n   ]\n  }\n ]\n}"
+						},
+						{
+							"id": "156878f2-9b6c-480d-845f-bdfadb301f19",
+							"name": "No content.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+										"key": "Authorization",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": ""
+						},
+						{
+							"id": "ae968bd9-80bd-4c80-b6fb-5346f2fbc081",
+							"name": "Unauthorized. Access token or subscriber key is missing or invalid.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+										"key": "Authorization",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n \"message\": \"<string>\",\n \"statusCode\": 401\n}"
+						},
+						{
+							"id": "9d7b87ac-eb64-4152-b6ad-850022336d2b",
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The subscriber is used to do all access control on the API, for example: control of requests, reports, limits and access products, etc.",
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The authorization token is used to validate your identity in Quartile LLC, only Quartile accounts can have API access.",
+										"key": "Authorization",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/amazon/v1/accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"amazon",
+										"v1",
+										"accounts"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n \"detail\": [\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  },\n  {\n   \"loc\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"msg\": \"<string>\",\n   \"type\": \"<string>\"\n  }\n ]\n}"
+						}
+					]
+				}
+			],
+			"id": "99378de3-26fc-43ca-859f-0f2a5d235904"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authorization_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "360776b1-e084-489f-b131-80c9559dea8a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1085f5ae-5303-4928-b3f7-93be7af4b03f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "5556ea16-c528-46e4-8de3-2df5cb32bc97",
+			"key": "product_acos_1",
+			"value": ""
+		},
+		{
+			"id": "409be293-aea0-4738-b01b-25514c7018f8",
+			"key": "asin_1",
+			"value": ""
+		},
+		{
+			"id": "f7f5734e-0092-473e-b680-0aacdcd3dcda",
+			"key": "product_1_id",
+			"value": ""
+		},
+		{
+			"id": "4731260e-58e6-4999-8827-a954720e14d7",
+			"key": "baseUrl",
+			"value": "/"
+		},
+		{
+			"id": "07ad8ae6-8d96-4fef-94b9-4b74f8a88b4f",
+			"key": "acos_1",
+			"value": ""
+		},
+		{
+			"id": "edebfbfb-8980-429a-9d08-8ec4e104761c",
+			"key": "country_code",
+			"value": ""
+		},
+		{
+			"id": "db0dcd9d-a2d0-43e6-866f-7f1b39b00d67",
+			"key": "id_master",
+			"value": ""
+		}
+	]
+}
